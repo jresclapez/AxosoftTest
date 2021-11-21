@@ -5,7 +5,7 @@ async function http(URL, params){
     const config = {
         params,
         headers: {
-            Authorization: "Beareyr " + AccessToken
+            Authorization: "Bearer " + AccessToken
         }
     }
     const axios = require("axios");

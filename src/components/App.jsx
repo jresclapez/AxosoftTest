@@ -6,22 +6,24 @@ const App = () => {
         <div className="App">
 
             <button onClick={()=>{
-                    const AsyncMessage = "Wath is your name?"
+                const AsyncMessage = "Get Tweets"
                 ipcRenderer.send('anything-asynchronous', AsyncMessage)
                     console.log("[App] Sending Request: ",AsyncMessage)
+
                 ipcRenderer.on('asynchronous-reply', (event, response) => {
                     console.log("[App] Main Process Response: ", response)
                 })
-            }}>Send AsyncMessage</button>
+
+            }}>Get Tweets -> log.console!</button>
 
 
-            <button onClick={()=>{
+            {/*<button onClick={()=>{*/}
 
-                // prints "pong"
-                console.log("[App] Sync Request: ping")
-                console.log("[App] Sync Response:  ", ipcRenderer.sendSync('anything-synchronous', 'ping'))
+            {/*    // prints "pong"*/}
+            {/*    console.log("[App] Sync Request: ping")*/}
+            {/*    console.log("[App] Sync Response:  ", ipcRenderer.sendSync('anything-synchronous', 'ping'))*/}
 
-            }}>Send SyncMessage</button>
+            {/*}}>Send SyncMessage</button>*/}
 
         </div>
 
