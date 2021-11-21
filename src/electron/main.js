@@ -74,7 +74,8 @@ app.whenReady().then(() => {
 
     const getData = require("./services/twitter")
     ipcMain.on('anything-asynchronous', (event, request) => {
-   //     console.log("[Main] Request received: ",request) // prints "async ping"
+        let date_ob = new Date();
+    console.log("[Main] Request received: ",date_ob) // prints "async ping"
   //      console.log(Buffer.from("BC2lByVev3Es69b9pJUvvU38N:u1LMWosIssCWQADNLNZa9vdlUbnH5y2y4it6bpVanXBfSsdDqZ").toString('base64'));
         getData.getTweets("bbcmundo", 50).then(data => {
             event.reply('asynchronous-reply', data)
