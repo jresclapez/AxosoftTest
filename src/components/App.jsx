@@ -1,54 +1,50 @@
-import React from 'react';
-const { ipcRenderer } = window.require('electron');
+import React, { useState } from 'react';
+import IpcService from "./ipcService"
+//import 'regenerator-runtime/runtime'
 
+const ipc = new IpcService()
 
-
-ipcRenderer.on('asynchronous-reply', (event, response) => {
-    console.log("[App] Main Process Response: ", response)
-})
 
 const App = () => {
+
+
+
+
+    const [searchText, setSearchText] = useState([]);
+    const [tweets, setTweets] = useState([]);
+
+    const handleButtonOnClhange = async (request) => {
+        setSearchText(request);
+    }
+
+    const handleButtonOnKeyDown = async (request) => {
+        const tweetsResult = await ipc.send('twitter', searchText)
+        setTweets(tweetsResult)
+    }
+
+
     return (
         <div className="App">
 
-            <button onClick={()=>{
+            <input type="test"
+                   placeholder="type your search here"
+                   value={searchText}
+                   onKeyDown={(event) => { if(event.key === 'Enter')  { handleButtonOnKeyDown() } } }
+                   onChange={({target})=> {
+                           handleButtonOnClhange(target.value)
+                   }
+            }/>
 
-                const request = {
-                    target : "twitter",
-                    action: "getTweetsByUsername",
-                    parameters: {
-                        username: "bbcmundo",
-                        maxTweets: 50
-                    }
+                {tweets.data ? (
+                    <ul>
+                        {tweets.data.map((item,index)=> (<li key={index}>{item.text}</li>))}
+
+                    </ul>
+                ):(
+                   <div>"No hay resultados"</div>
+                )
+
                 }
-
-                ipcRenderer.send('anything-asynchronous', request)
-                    console.log("[App] Sending Request: ",request)
-
-            }}>Get Tweets -> log.console!</button>
-
-
-            <button onClick={()=>{
-
-                const request = {
-                    target : "electron",
-                    action: "getLastSearches"
-                }
-
-                ipcRenderer.send('anything-asynchronous', request)
-                console.log("[App] Sending Request: ",request)
-
-            }}>Get Searches -> log.console!</button>
-
-
-            {/*<button onClick={()=>{*/}
-
-            {/*    // prints "pong"*/}
-            {/*    console.log("[App] Sync Request: ping")*/}
-            {/*    console.log("[App] Sync Response:  ", ipcRenderer.sendSync('anything-synchronous', 'ping'))*/}
-
-            {/*}}>Send SyncMessage</button>*/}
-
         </div>
 
     );

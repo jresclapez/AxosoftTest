@@ -14,26 +14,17 @@ async function http(URL, params){
 
 }
 
-async function getTweets(username, maxResults) {
+async function getTweets(target) {
 
-    const URL = `${constants.BASE_TWITTER_API2_URL}/tweets/search/recent?query=from%3A${username}`;
+    const URL = `${constants.BASE_TWITTER_API2_URL}/tweets/search/recent?query=${target}`;
 
     const params = {
-            "max_results": maxResults,
-            "expansions": "author_id",
-            "tweet.fields": "created_at,lang,conversation_id"
-        }
-
-    try {
-
-        const response = await http(URL, params)
-        return response.data
-
-    }catch (e) {
-
-       if (e.response.status === 401) return null;
-       throw e;
+        "max_results": 20,
+        "tweet.fields": "created_at,lang,conversation_id"
     }
+
+    return await http(URL, params)
+
 }
 
 exports.getTweets = getTweets;
