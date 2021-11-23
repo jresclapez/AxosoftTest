@@ -5,6 +5,7 @@
   "homepage": "./",
   "main": "src/electron/main.js",
   "scripts": {
+    "lint:fix": "eslint --ext .js,.jsx --fix --ignore-path .gitignore .",
     "start": "cross-env NODE_ENV=development webpack serve --hot --host 0.0.0.0 --config=./webpack.config.js"
   },
   "author": "Juan Ramon Esclapez Martinez",
@@ -22,19 +23,26 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-react": "^7.27.1",
     "html-webpack-plugin": "^5.3.2",
+    "prettier": "^2.4.1",
     "webpack": "^5.40.0",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.3"
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "css-loader": "^6.5.1",
+    "primeicons": "^5.0.0",
+    "primereact": "^7.0.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "sass": "^1.43.4",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1"
   }
 }
