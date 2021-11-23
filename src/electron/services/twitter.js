@@ -1,17 +1,17 @@
 const constants = require("./../constants");
+const {access_token} = require("./../files/userConfig")
 
 async function http(URL, params){
 
     const config = {
         params,
         headers: {
-            Authorization: "Bearer " + AccessToken
+            Authorization: "Bearer " + access_token
         }
     }
     const axios = require("axios");
     const response = await axios.get(URL, config)
     return response.data
-
 }
 
 async function getTweets(target) {
@@ -23,8 +23,13 @@ async function getTweets(target) {
         "tweet.fields": "created_at,lang,conversation_id"
     }
 
-    return await http(URL, params)
 
+    try{
+        return await http(URL, params);
+
+    }catch(e){
+        return e;
+    }
 }
 
 exports.getTweets = getTweets;

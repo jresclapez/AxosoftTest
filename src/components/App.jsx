@@ -11,15 +11,18 @@ const App = () => {
 
 
     const [searchText, setSearchText] = useState([]);
-    const [tweets, setTweets] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
+    const [searchDisabled, setSearchDisabled] = useState(false);
 
     const handleButtonOnClhange = async (request) => {
         setSearchText(request);
     }
 
     const handleButtonOnKeyDown = async (request) => {
-        const tweetsResult = await ipc.send('twitter', searchText)
-        setTweets(tweetsResult)
+        setSearchDisabled(true)
+        const searchResponse = await ipc.send('twitter', searchText)
+        setSearchResult(searchResponse)
+        setSearchDisabled(false)
     }
 
 
@@ -27,6 +30,7 @@ const App = () => {
         <div className="App">
 
             <input type="test"
+                   disabled={searchDisabled}
                    placeholder="type your search here"
                    value={searchText}
                    onKeyDown={(event) => { if(event.key === 'Enter')  { handleButtonOnKeyDown() } } }
@@ -35,10 +39,9 @@ const App = () => {
                    }
             }/>
 
-                {tweets.data ? (
+                {searchResult.data ? (
                     <ul>
-                        {tweets.data.map((item,index)=> (<li key={index}>{item.text}</li>))}
-
+                        {searchResult.data.map((item,index)=> (<li key={index}>{item.text}</li>))}
                     </ul>
                 ):(
                    <div>"No hay resultados"</div>
