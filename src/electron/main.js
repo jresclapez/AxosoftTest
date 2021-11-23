@@ -2,9 +2,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const { ipcMain } = require('electron')
 const url = require('url')
-const {IpcServiceE} = require("./services/ipcServices")
-
-//global.AccessToken = "AAAAAAAAAAAAAAAAAAAAAFYGWAEAAAAAHRiSObOsPrmCtxEoCxVXlwJMeKE%3DWoUtvwyMbQTrsUbxNCPQgL0kAxwOvSfsV9ZI1FLF64SRpNuXyy"
+const {IpcService} = require("./services/ipc")
 //      console.log(Buffer.from("BC2lByVev3Es69b9pJUvvU38N:u1LMWosIssCWQADNLNZa9vdlUbnH5y2y4it6bpVanXBfSsdDqZ").toString('base64'));
 
 
@@ -17,7 +15,8 @@ function createWindow () {
         titleBarStyle: "hiddenInset",
         minWidth: 800,
         minHeight: 600,
-        backgroundColor: "#ccf7ff",
+        title:"Axosoft Technical Test",
+        backgroundColor: "#7aaeff",
         fullscreenable: false,
         fullscreen: false,
         webPreferences: {
@@ -28,7 +27,7 @@ function createWindow () {
     })
 
 
-    indexPath = url.format({
+    const indexPath = url.format({
         protocol: 'http:',
         host: 'localhost:8080',
         pathname: '../index.html',
@@ -48,6 +47,21 @@ function createWindow () {
         win.webContents.openDevTools()
 
     })
+
+
+    app.on('activate', () => {
+        if (win === null) {
+            createWindow()
+        }
+    })
+
+    app.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') {
+            app.quit()
+        }
+    })
+
+
 }
 
 app.whenReady().then(() => {
@@ -60,23 +74,10 @@ app.whenReady().then(() => {
         }
     })
 
-    const channel = IpcServiceE;
-    ipcMain.on("twitter", (event, request) => channel.handle(event, request));
-
+    const ipcServ = IpcService;
+    const channel = "twitter"
+    ipcMain.on(channel, (event, request) => ipcServ.handle(event, channel, request));
 
 })
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
-})
 
-
-app.on('activate', () => {
-    // On macOS it's common to re-create a window in the components when the
-    // dock icon is clicked and there are no other windows open.
-    if (win === null) {
-        createWindow()
-    }
-})
