@@ -1,13 +1,25 @@
 const {getTweets} = require("./twitter")
-const {saveSearch} = require("./files")
+const {saveSearch, getSearches} = require("./files")
 
 class IpcService {
 
-    async  handle  (event, channel, request) {
-        event.sender.send(`${channel}_response`, await getTweets(request))
-        saveSearch(request, Date.now())
+    constructor(channel, actions){
+        this.channel = channel;
     }
 
+    async  handle  (event, request) {
 
+        if (this.channel === "twitter"){
+            event.sender.send(`${this.channel}_response`,  getTweets(request))
+            saveSearch(request, Date.now())
+        }
+
+        if (this.channel === "infoSearch"){
+
+            event.sender.send(`${this.channel}_response`, getSearches() )
+
+        }
+    }
 }
-exports.IpcService = new IpcService;
+
+exports.IpcService =  IpcService;

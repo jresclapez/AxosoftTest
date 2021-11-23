@@ -74,9 +74,17 @@ app.whenReady().then(() => {
         }
     })
 
-    const ipcServ = IpcService;
-    const channel = "twitter"
-    ipcMain.on(channel, (event, request) => ipcServ.handle(event, channel, request));
+
+    const ipcServices = [
+        new IpcService("twitter"),
+        new IpcService("infoSearch")]
+
+    ipcServices.map(ipc =>{
+        ipcMain.on(ipc.channel, (event, request) =>
+            ipc.handle(event, request));
+        }
+    )
+
 
 })
 

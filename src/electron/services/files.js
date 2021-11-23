@@ -31,4 +31,21 @@ function saveSearch (searchText, searchDate) {
 }
 
 
+function getSearches(){
+
+    fs.readFile(JSON_FILE_SEARCHES, 'utf8',
+        function readFileCallback(error, data) {
+            if (error) {
+                console.log(error);
+
+            } else {
+                return data;
+            }
+        })
+
+}
+
+
+
 exports.saveSearch = saveSearch;
+exports.getSearches = getSearches;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import IpcService from "./ipcService"
-//import 'regenerator-runtime/runtime'
 
 const ipc = new IpcService()
 
@@ -15,12 +14,19 @@ const App = () => {
         setSearchText(request);
     }
 
-    const handleButtonOnKeyDown = async (searchText) => {
+    const handleButtonOnKeyDown = async () => {
         setSearchDisabled(true)
         const searchResponse = await ipc.send('twitter', searchText)
         setSearchResult(searchResponse)
         setSearchDisabled(false)
+        getLastSearches()
     }
+
+    const getLastSearches = async () => {
+        const lastSearches = await ipc.send('infoSearch')
+        console.log(lastSearches)
+    }
+
 
 
     return (
