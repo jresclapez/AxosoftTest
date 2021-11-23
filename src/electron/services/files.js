@@ -2,25 +2,24 @@ const fs = require('fs');
 const {JSON_FILE_SEARCHES, JSON_FILE_USERCONFIG} = require("./../constants")
 
 
-function saveData (file, functionData) {
+function fileUpdate (file, functionData) {
     fs.readFile(file, 'utf8',
         function readFileCallback(error, data){
             if (error)
                 throw error;
             else
 
-            fs.writeFile(file,functionData(JSON.parse(data))),
+            fs.writeFile(file, functionData(JSON.parse(data)),
                 function writeFileCallback(error) {
                     if (error)
                         throw error;
-            }
-        })
+            })
+    })
 }
-
 
 function saveSearch (searchText, searchDate) {
 
-    saveData(JSON_FILE_SEARCHES, function (lastSearches) {
+    fileUpdate(JSON_FILE_SEARCHES, function (lastSearches) {
 
         const searches = lastSearches.filter(item => item.search !== searchText);
 
@@ -31,15 +30,19 @@ function saveSearch (searchText, searchDate) {
             search_text: searchText,
             searched_at: searchDate
         })
-        return searches
+
+        return JSON.stringify(searches)
     })
 }
 
-function getSearches(){
+
+
+
+function getFileContent(file){
 
     return new Promise(function (resolve, reject) {
 
-        fs.readFile(JSON_FILE_SEARCHES, 'utf8',
+        fs.readFile(file, 'utf8',
             function readFileCallback(error, data) {
                 if (error)
                      reject(error);
@@ -49,13 +52,18 @@ function getSearches(){
     })
 }
 
+
+
+
 function saveToken (access_token) {
-    saveData(JSON_FILE_USERCONFIG, function (userConfig) {
+    fileUpdate(JSON_FILE_USERCONFIG, function (userConfig) {
         userConfig.access_token = access_token
+
+        return JSON.stringify(userConfig)
     })
 }
 
 
 exports.saveSearch = saveSearch;
-exports.getSearches = getSearches;
+exports.getFileContent = getFileContent;
 exports.saveToken = saveToken;

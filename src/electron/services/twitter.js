@@ -1,6 +1,5 @@
-const constants = require("./../constants");
-const {access_token, api_key, api_secret} = require("./../files/userConfig")
-const {saveToken} = require("./files")
+const {BASE_TWITTER_API2_URL,AUTH_TWITTER_API2_URL} = require("./../constants");
+const {api_key, api_secret} = require("./../files/userConfig")
 
 async function http(URL, config){
 
@@ -16,17 +15,39 @@ async function http(URL, config){
     }
 
     const axios = require("axios");
-    return await axios.get(URL, config)
+    const response =  await axios.get(URL, config)
+    return response.data
+}
 
+
+async function getTweets(target) {
+
+    const URL = `${BASE_TWITTER_API2_URL}/tweets/search/recent?query=${target}`;
+
+    const config = {
+            params : {
+                "max_results": 30,
+                "tweet.fields": "created_at,lang,conversation_id"
+            }
+    }
+
+    try{
+        return await http(URL, config);
+
+    }catch(e){
+        if (e.response.status === 400){
+            return false
+        }
+        return e
+    }
 
 }
 
-async function getTwitterTokenAccess(){
 
-    const URL = constants.AUTH_TWITTER_API2_URL;
+async function getTokenAccess() {
 
     const token = `${api_key}:${api_secret}`
-    const token_B64 = Buffer.from(token).toString('base64').replace('\r\n','')
+    const token_B64 = Buffer.from(token).toString('base64')
 
     const config = {
         headers: {
@@ -35,49 +56,10 @@ async function getTwitterTokenAccess(){
         }
     }
 
-    try{
-        return await http(URL, config)
-
-    }catch(e){
-        if (e.response.status === 401)
-            console.log(e)
-            return e;
-    }
+    return await http(AUTH_TWITTER_API2_URL, config)
 }
 
 
-async function getTweets(target) {
-
-    const URL = `${constants.BASE_TWITTER_API2_URL}/tweets/search/recent?query=${target}`;
-
-    const config = {
-            params : {
-                "max_results": 20,
-                "tweet.fields": "created_at,lang,conversation_id"
-            }
-    }
-
-    try{
-        return await http(URL, config);
-
-
-    }catch(e){
-        if (e.response.statusText === 'Unauthorized'){
-
-            try {
-                const response = await getTwitterTokenAccess();
-                console.log(response)
-                const access_token = response.data.access_token;
-                saveToken(access_token)
-                return await http(URL, config);
-            } catch(e){
-                console.log( e);
-                return e;
-            }
-        }
-        else
-            return e;
-    }
-}
 
 exports.getTweets = getTweets;
+exports.getTokenAccess = getTokenAccess;

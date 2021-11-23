@@ -9,15 +9,17 @@ const App = () => {
     const [searchText, setSearchText] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [searchDisabled, setSearchDisabled] = useState(false);
-    const [lastSearches, serLastSearches] = useState([]);
+    const [lastSearches, setLastSearches] = useState([]);
 
     const handleButtonOnClhange = async (request) => {
         setSearchText(request);
+
     }
 
     const handleButtonOnKeyDown = async () => {
         setSearchDisabled(true)
         const searchResponse = await ipc.send('twitter', searchText)
+        console.log(searchResponse)
         setSearchResult(searchResponse)
         setSearchDisabled(false)
         getLastSearches()
@@ -25,7 +27,8 @@ const App = () => {
 
     const getLastSearches = async () => {
         const lastSearchesResponse = await ipc.send('infoSearch')
-        serLastSearches(lastSearchesResponse)
+        setLastSearches(lastSearchesResponse)
+        console.log(lastSearchesResponse)
     }
 
 
