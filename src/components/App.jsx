@@ -9,6 +9,7 @@ const App = () => {
     const [searchText, setSearchText] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [searchDisabled, setSearchDisabled] = useState(false);
+    const [lastSearches, serLastSearches] = useState([]);
 
     const handleButtonOnClhange = async (request) => {
         setSearchText(request);
@@ -23,8 +24,8 @@ const App = () => {
     }
 
     const getLastSearches = async () => {
-        const lastSearches = await ipc.send('infoSearch')
-        console.log(lastSearches)
+        const lastSearchesResponse = await ipc.send('infoSearch')
+        serLastSearches(lastSearchesResponse)
     }
 
 
@@ -42,15 +43,19 @@ const App = () => {
                    }
             }/>
 
-                {searchResult.data ? (
-                    <ul>
-                        {searchResult.data.map((item,index)=> (<li key={index}>{item.text}</li>))}
-                    </ul>
-                ):(
-                   <div>No results found...</div>
-                )
+            {searchResult.data ? (
+                <ul>
+                    {searchResult.data.map((item,index)=> (<li key={index}>{item.text}</li>))}
+                </ul>
+            ):(
+                <div>
+                    <div> {lastSearches.map((item,index)=> (<li key={index}>{item.search_text}</li>))}</div>
 
-                }
+                   <div>No results found...</div>
+                </div>
+            )
+
+            }
         </div>
 
     );

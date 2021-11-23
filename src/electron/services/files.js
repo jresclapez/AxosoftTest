@@ -1,51 +1,61 @@
 const fs = require('fs');
-const {JSON_FILE_SEARCHES} = require("./../constants")
+const {JSON_FILE_SEARCHES, JSON_FILE_USERCONFIG} = require("./../constants")
+
+
+function saveData (file, functionData) {
+    fs.readFile(file, 'utf8',
+        function readFileCallback(error, data){
+            if (error)
+                throw error;
+            else
+
+            fs.writeFile(file,functionData(JSON.parse(data))),
+                function writeFileCallback(error) {
+                    if (error)
+                        throw error;
+            }
+        })
+}
+
 
 function saveSearch (searchText, searchDate) {
 
-    fs.readFile(JSON_FILE_SEARCHES, 'utf8',
-        function readFileCallback(error, data){
-        if (error){
-            console.log(error);
+    saveData(JSON_FILE_SEARCHES, function (lastSearches) {
 
-        } else {
-            const searches = JSON.parse(data).filter(item => item.search !== searchText);
+        const searches = lastSearches.filter(item => item.search !== searchText);
 
-            while(searches.length >= 5)
-                      searches.shift()
+        while (searches.length >= 5)
+            searches.shift()
 
-                searches.push({
-                    search_text: searchText,
-                    searched_at:searchDate
-                })
-
-            fs.writeFile(JSON_FILE_SEARCHES, JSON.stringify(searches),
-                function writeFileCallback(error){
-                    if (error){
-                        console.log(error);
-                    }
-            })
-        }
+        searches.push({
+            search_text: searchText,
+            searched_at: searchDate
+        })
+        return searches
     })
-
 }
-
 
 function getSearches(){
 
-    fs.readFile(JSON_FILE_SEARCHES, 'utf8',
-        function readFileCallback(error, data) {
-            if (error) {
-                console.log(error);
+    return new Promise(function (resolve, reject) {
 
-            } else {
-                return data;
-            }
-        })
-
+        fs.readFile(JSON_FILE_SEARCHES, 'utf8',
+            function readFileCallback(error, data) {
+                if (error)
+                     reject(error);
+                else
+                    resolve(JSON.parse(data));
+            })
+    })
 }
 
+function saveToken (access_token) {
+    saveData(JSON_FILE_USERCONFIG, function (userConfig) {
+        userConfig.access_token = access_token
+    })
+}
 
 
 exports.saveSearch = saveSearch;
 exports.getSearches = getSearches;
+exports.saveToken = saveToken;

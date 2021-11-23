@@ -3,7 +3,7 @@ const path = require('path')
 const { ipcMain } = require('electron')
 const url = require('url')
 const {IpcService} = require("./services/ipc")
-//      console.log(Buffer.from("BC2lByVev3Es69b9pJUvvU38N:u1LMWosIssCWQADNLNZa9vdlUbnH5y2y4it6bpVanXBfSsdDqZ").toString('base64'));
+
 
 
 
