@@ -1,45 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import 'primereact/resources/themes/fluent-light/theme.css';
 import 'primereact/resources/primereact.min.css';
-import { InputText } from 'primereact/inputtext';
+import 'primeicons/primeicons.css';
+import getLastSearches from './services/getLastSearches';
 import searchTweets from './services/searchTweets';
+import Search from './Search';
 
 const App = () => {
-  const [searchText, setSearchText] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [lastSearches, setLastSearches] = useState([]);
 
-  const handleButtonOnClhange = async (request) => {
-    setSearchText(request);
+  const handleSearchTextChange = (e) => {
+    setSearchText(e.target.value);
   };
 
   useEffect(async () => {
-    // const lastSearchesResponse = await getLastSearches();
-    // setLastSearches(lastSearchesResponse);
+    const lastSearchesResponse = await getLastSearches();
+    setLastSearches(lastSearchesResponse);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-
-    const searchResponse = await searchTweets(searchText);
-    setSearchResult(searchResponse);
+    if (searchText.length > 0) {
+      const searchResponse = await searchTweets(searchText);
+      setSearchResult(searchResponse);
+    }
   };
 
   return (
     <div className="App">
       <h1> Twitter Feeds </h1>
 
-      <span className="p-float-label">
-        <form onSubmit={handleSubmit}>
-          <InputText
-            id="in"
-            value={searchText}
-            onChange={({ target }) => {
-              handleButtonOnClhange(target.value);
-            }}
-          />
-          <label htmlFor="in">type your search here</label>
-        </form>
+      <span className="p-input-icon-left">
+        <i className="pi pi-search" />
+
+        <Search
+          searchText={searchText}
+          onSearch={handleSearch}
+          onSearchTextChange={handleSearchTextChange}
+        />
       </span>
 
       {searchResult.data ? (

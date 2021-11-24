@@ -17,9 +17,7 @@ module.exports = {
         shell: true,
         env: process.env,
         stdio: 'inherit'
-      })
-        //          .on('close', code => process.exit(0))
-        .on('error', (spawnError) => console.error(spawnError));
+      }).on('error', (spawnError) => console.error(spawnError));
     }
   },
   entry: ['./src/index.js'],
@@ -29,7 +27,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js|\.jsx$/,
         exclude: /node_modules/,
         use: 'babel-loader'
       },
@@ -50,6 +48,20 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader',
+        options: {
+          esModule: false
+        }
+      },
+      {
+        test: /\.(ico|jpe?g|png|gif|webp|svg|mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          esModule: false
+        }
       }
     ]
   },

@@ -1,9 +1,9 @@
-const { BASE_TWITTER_API2_URL } = require('../constants');
+const { BASE_TWITTER_API_URL } = require('../constants');
 require('dotenv').config();
 const axios = require('axios');
 
 const httpSearchTweets = async (searchText) => {
-  const URL = `${BASE_TWITTER_API2_URL}/tweets/search/recent`;
+  const URL = `${BASE_TWITTER_API_URL}/tweets/search/recent`;
 
   const config = {
     params: {
