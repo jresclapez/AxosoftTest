@@ -4,7 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import getLastSearches from './services/getLastSearches';
 import searchTweets from './services/searchTweets';
-import Search from './Search';
+import Search from './components/Search';
 
 const App = () => {
   const [searchText, setSearchText] = useState('');

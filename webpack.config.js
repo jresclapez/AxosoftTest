@@ -20,7 +20,7 @@ module.exports = {
       }).on('error', (spawnError) => console.error(spawnError));
     }
   },
-  entry: ['./src/index.js'],
+  entry: ['./src/app/index.js'],
   resolve: {
     extensions: ['.js', '.jsx']
   },
@@ -71,7 +71,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './src/app/index.html',
       filename: './index.html'
     })
   ]

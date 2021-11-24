@@ -8,7 +8,7 @@ const httpSearchTweets = async (searchText) => {
   const config = {
     params: {
       max_results: 30,
-      'tweet.fields': 'created_at,lang,conversation_id',
+      'tweet.fields': 'created_at',
       query: searchText
     },
     headers: {
