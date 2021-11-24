@@ -7,7 +7,6 @@ import searchTweets from './services/searchTweets';
 const App = () => {
   const [searchText, setSearchText] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
-  const [searchDisabled, setSearchDisabled] = useState(false);
   const [lastSearches, setLastSearches] = useState([]);
 
   const handleButtonOnClhange = async (request) => {
@@ -22,10 +21,8 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setSearchDisabled(true);
     const searchResponse = await searchTweets(searchText);
     setSearchResult(searchResponse);
-    setSearchDisabled(false);
   };
 
   return (
@@ -37,7 +34,6 @@ const App = () => {
           <InputText
             id="in"
             value={searchText}
-            disable={searchDisabled}
             onChange={({ target }) => {
               handleButtonOnClhange(target.value);
             }}

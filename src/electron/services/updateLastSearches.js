@@ -1,18 +1,20 @@
 const { JSON_FILE_SEARCHES } = require('../constants');
-const { fileUpdate } = require('./files');
+const fileUpdate = require('../utils/fileUpdate');
 
-function updateLastSearches(searchText, searchDate) {
+function updateLastSearches(searchText) {
   fileUpdate(JSON_FILE_SEARCHES, function (lastSearches) {
-    const searches = lastSearches.filter((item) => item.search !== searchText);
+    if (!lastSearches) {
+      lastSearches = '[]';
+    }
+    const searches = JSON.parse(lastSearches).filter(
+      (item) => item.search !== searchText
+    );
 
     while (searches.length >= 5) {
-      searches.shift();
+      searches.pop();
     }
 
-    searches.push({
-      search_text: searchText,
-      searched_at: searchDate
-    });
+    searches.unshift({ search_text: searchText });
 
     return JSON.stringify(searches);
   });

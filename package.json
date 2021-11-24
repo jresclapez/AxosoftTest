@@ -37,6 +37,8 @@
   "dependencies": {
     "axios": "^0.24.0",
     "css-loader": "^6.5.1",
+    "dotenv": "^10.0.0",
+    "electron-json-storage": "^4.5.0",
     "primeicons": "^5.0.0",
     "primereact": "^7.0.1",
     "react": "^17.0.2",

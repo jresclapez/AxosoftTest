@@ -1,5 +1,5 @@
 const { BASE_TWITTER_API2_URL } = require('../constants');
-const { accessToken } = require('../files/userConfig.json');
+require('dotenv').config();
 const axios = require('axios');
 
 const httpSearchTweets = async (searchText) => {
@@ -12,7 +12,7 @@ const httpSearchTweets = async (searchText) => {
       query: searchText
     },
     headers: {
-      Authorization: 'Bearer ' + accessToken
+      Authorization: 'Bearer ' + process.env.ACCESS_TOKEN
     }
   };
 
