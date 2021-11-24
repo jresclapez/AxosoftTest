@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 function fileUpdate(file, formatFunction) {
+  // if file not exists,   new file its created
   fs.access(file, function (error) {
     if (error) {
       console.log('error access');
@@ -16,7 +17,7 @@ function fileUpdate(file, formatFunction) {
       });
     }
   });
-
+  // function that reads data from file, formats data and write formatted data into file
   fs.readFile(file, 'utf8', function readFileCallback(error, data) {
     if (error) {
       throw error;
