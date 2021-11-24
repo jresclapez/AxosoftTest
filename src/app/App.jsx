@@ -5,7 +5,8 @@ import 'primeicons/primeicons.css';
 import getLastSearches from './services/getLastSearches';
 import searchTweets from './services/searchTweets';
 import Search from './components/Search';
-
+import LastSearches from './components/LastSearches';
+import Tweets from './components/Tweets';
 const App = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
@@ -28,33 +29,30 @@ const App = () => {
     }
   };
 
+  const handleSearchClick = async (e) => {
+    setSearchText(e.target.innerText);
+    const searchResponse = await searchTweets(e.target.innerText);
+    setSearchResult(searchResponse);
+  };
+
   return (
     <div className="App">
       <h1> Twitter Feeds </h1>
+      <Search
+        searchText={searchText}
+        onSearch={handleSearch}
+        onSearchTextChange={handleSearchTextChange}
+      />
 
-      <span className="p-input-icon-left">
-        <i className="pi pi-search" />
-
-        <Search
-          searchText={searchText}
-          onSearch={handleSearch}
-          onSearchTextChange={handleSearchTextChange}
-        />
-      </span>
-
+      <br />
       {searchResult.data ? (
-        <ul>
-          {searchResult.data.map((item, index) => (
-            <li key={index}>{item.text}</li>
-          ))}
-        </ul>
+        <Tweets tweets={searchResult.data} />
       ) : (
         <div>
-          <div>
-            {lastSearches.map((item, index) => (
-              <li key={index}>{item.search_text}</li>
-            ))}
-          </div>
+          <LastSearches
+            searches={lastSearches}
+            onSearchClick={handleSearchClick}
+          />
 
           <div>No results found...</div>
         </div>

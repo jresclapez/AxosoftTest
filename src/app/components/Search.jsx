@@ -5,12 +5,15 @@ import PropTypes from 'prop-types';
 const Search = ({ onSearch, onSearchTextChange, SearchText }) => {
   return (
     <form onSubmit={onSearch}>
-      <InputText
-        id="inputText"
-        value={SearchText}
-        onChange={onSearchTextChange}
-        placeholder="Search"
-      />
+      <span className="p-input-icon-left">
+        <i className="pi pi-search" />
+        <InputText
+          id="inputText"
+          value={SearchText}
+          onChange={onSearchTextChange}
+          placeholder="Search"
+        />
+      </span>
     </form>
   );
 };
