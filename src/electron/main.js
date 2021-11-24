@@ -2,7 +2,8 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { ipcMain } = require('electron');
 const url = require('url');
-const { IpcService } = require('./services/ipc');
+const getLastSearches = require('./services/getLastSearches');
+const searchTweets = require('./services/searchTweets');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -67,10 +68,12 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+});
 
-  const ipcServices = [new IpcService('twitter'), new IpcService('infoSearch')];
+ipcMain.handle('getLastSearches', async () => {
+  return await getLastSearches();
+});
 
-  ipcServices.forEach((ipc) => {
-    ipcMain.on(ipc.channel, (event, request) => ipc.handle(event, request));
-  });
+ipcMain.handle('searchTweets', async (event, searchText) => {
+  return await searchTweets(searchText);
 });

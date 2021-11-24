@@ -54,5 +54,5 @@ async function getTokenAccess() {
   return await http(AUTH_TWITTER_API2_URL, config);
 }
 
-exports.getTweets = getTweets;
+module.exports = getTweets;
 exports.getTokenAccess = getTokenAccess;

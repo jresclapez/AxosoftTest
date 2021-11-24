@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import IpcService from './ipcService';
+import React, { useEffect, useState } from 'react';
 import 'primereact/resources/themes/fluent-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { InputText } from 'primereact/inputtext';
-
-const ipc = new IpcService();
+import searchTweets from './services/searchTweets';
 
 const App = () => {
   const [searchText, setSearchText] = useState([]);
@@ -16,17 +14,18 @@ const App = () => {
     setSearchText(request);
   };
 
-  const handleButtonOnKeyDown = async () => {
+  useEffect(async () => {
+    // const lastSearchesResponse = await getLastSearches();
+    // setLastSearches(lastSearchesResponse);
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     setSearchDisabled(true);
-    const searchResponse = await ipc.send('twitter', searchText);
+    const searchResponse = await searchTweets(searchText);
     setSearchResult(searchResponse);
     setSearchDisabled(false);
-    getLastSearches();
-  };
-
-  const getLastSearches = async () => {
-    const lastSearchesResponse = await ipc.send('infoSearch');
-    setLastSearches(lastSearchesResponse);
   };
 
   return (
@@ -34,35 +33,18 @@ const App = () => {
       <h1> Twitter Feeds </h1>
 
       <span className="p-float-label">
-        <InputText
-          id="in"
-          value={searchText}
-          onChange={({ target }) => {
-            handleButtonOnClhange(target.value);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              handleButtonOnKeyDown();
-            }
-          }}
-        />
-        <label htmlFor="in">type your search here</label>
+        <form onSubmit={handleSubmit}>
+          <InputText
+            id="in"
+            value={searchText}
+            disable={searchDisabled}
+            onChange={({ target }) => {
+              handleButtonOnClhange(target.value);
+            }}
+          />
+          <label htmlFor="in">type your search here</label>
+        </form>
       </span>
-
-      <input
-        type="test"
-        disabled={searchDisabled}
-        placeholder="type your search here"
-        value={searchText}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') {
-            handleButtonOnKeyDown();
-          }
-        }}
-        onChange={({ target }) => {
-          handleButtonOnClhange(target.value);
-        }}
-      />
 
       {searchResult.data ? (
         <ul>
