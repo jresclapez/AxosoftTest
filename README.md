@@ -1,12 +1,12 @@
 
 # AxosoftTest
-####Twitter feed app  for Axosoft technical test. 
+#### Twitter feed app  for Axosoft technical test. 
 #### Electron-React App which displays a Twitter feed. The Twitter search runs in the main process, as well as the storage of the last 5 searches.
 
 
 #### Communication between the electron and the react app has been implemented using the ipcMain and ipcRender modules, respectively
 
-#####It has been used for the prime-react library for the creation of react components
+##### It has been used for the prime-react library for the creation of react components
 
 ### Example of communication between electron and react app
 ###### Handle IPC method from electron:
