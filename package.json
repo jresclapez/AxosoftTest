@@ -6,8 +6,7 @@
   "main": "src/electron/main.js",
   "scripts": {
     "lint:fix": "eslint --ext .js,.jsx --fix --ignore-path .gitignore .",
-    "start": "cross-env NODE_ENV=development webpack serve --hot --host 0.0.0.0 --config=./webpack.config.js --mode development",
-    "postpackage": "electron-packager ./ --out=./builds"
+    "start": "cross-env NODE_ENV=development webpack serve --hot --host 0.0.0.0 --config=./webpack.config.js --mode development"
   },
   "author": "Juan Ramon Esclapez Martinez",
   "license": "ISC",
