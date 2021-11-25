@@ -7,14 +7,14 @@ function updateLastSearches(searchText) {
       lastSearches = '[]';
     }
     const searches = JSON.parse(lastSearches).filter(
-      (item) => item.search !== searchText
+      (item) => item.searchText.toLowerCase() !== searchText.toLowerCase()
     );
 
     while (searches.length >= 5) {
       searches.pop();
     }
 
-    searches.unshift({ search_text: searchText });
+    searches.unshift({ searchText: searchText });
 
     return JSON.stringify(searches);
   });

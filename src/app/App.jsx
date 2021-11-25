@@ -1,62 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import 'primereact/resources/themes/fluent-light/theme.css';
 import 'primereact/resources/primereact.min.css';
+import 'primeflex/primeflex.min.css';
 import 'primeicons/primeicons.css';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import getLastSearches from './services/getLastSearches';
 import searchTweets from './services/searchTweets';
 import Search from './components/Search';
-import LastSearches from './components/LastSearches';
 import Tweets from './components/Tweets';
+
 const App = () => {
-  const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+  const [searchOccurred, setSearchOccurred] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [lastSearches, setLastSearches] = useState([]);
 
-  const handleSearchTextChange = (e) => {
-    setSearchText(e.target.value);
-  };
-
   useEffect(async () => {
-    const lastSearchesResponse = await getLastSearches();
-    setLastSearches(lastSearchesResponse);
+    await refreshLastSearches();
   }, []);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  const handleSearch = async (searchText) => {
     if (searchText.length > 0) {
-      const searchResponse = await searchTweets(searchText);
-      setSearchResult(searchResponse);
+      try {
+        setSearchOccurred(true);
+        setSearching(true);
+        const searchResponse = await searchTweets(searchText);
+        setSearchResult(searchResponse);
+      } finally {
+        setSearching(false);
+        await refreshLastSearches();
+      }
     }
   };
 
-  const handleSearchClick = async (e) => {
-    setSearchText(e.target.innerText);
-    const searchResponse = await searchTweets(e.target.innerText);
-    setSearchResult(searchResponse);
+  const refreshLastSearches = async () => {
+    const newLatestSearches = await getLastSearches();
+    setLastSearches(newLatestSearches);
   };
 
   return (
     <div className="App">
       <h1> Twitter Feeds </h1>
-      <Search
-        searchText={searchText}
-        onSearch={handleSearch}
-        onSearchTextChange={handleSearchTextChange}
-      />
+      <Search onSearch={handleSearch} lastSearches={lastSearches} />
 
-      <br />
-      {searchResult.data ? (
-        <Tweets tweets={searchResult.data} />
-      ) : (
-        <div>
-          <LastSearches
-            searches={lastSearches}
-            onSearchClick={handleSearchClick}
-          />
-
-          <div>No results found...</div>
-        </div>
-      )}
+      <div className="mt-3">
+        {searching && <ProgressSpinner />}
+        {!searching && (
+          <>
+            {searchResult.data && <Tweets tweets={searchResult.data} />}
+            {searchOccurred && !searchResult.date && (
+              <div>Results not found</div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

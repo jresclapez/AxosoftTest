@@ -27,41 +27,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js|\.jsx$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: 'babel-loader'
       },
       {
-        test: /\.scss$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true
-            }
-          },
-          'sass-loader'
-        ]
-      },
-      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|svg)$/,
-        loader: 'url-loader',
-        options: {
-          esModule: false
-        }
-      },
-      {
-        test: /\.(ico|jpe?g|png|gif|webp|svg|mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          esModule: false
-        }
       }
     ]
   },

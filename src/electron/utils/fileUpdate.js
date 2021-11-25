@@ -1,17 +1,13 @@
 const fs = require('fs');
+const fileExists = require('./fileExists');
 
 function fileUpdate(file, formatFunction) {
   // if file not exists,   new file its created
-  if (!fs.existsSync(file)) {
+  if (!fileExists(file)) {
     fs.open(file, 'wx', function (error, fd) {
       if (error) {
-        return error;
+        throw error;
       }
-      fs.close(fd, function (error) {
-        if (error) {
-          return error;
-        }
-      });
     });
   }
 
