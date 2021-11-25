@@ -32,7 +32,8 @@ npm install
 npm start
 ```
 
-### Colne this repository
+### Clone this repository
+
 ```git
 git clone https://github.com/jresclapez/AxosoftTest.git
 ```
