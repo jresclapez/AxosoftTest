@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
 const { ipcMain } = require('electron');
 const url = require('url');
 const getLastSearches = require('./services/getLastSearches');
@@ -34,16 +33,6 @@ function createWindow() {
 
   win.once('ready-to-show', () => {
     win.show();
-
-    const {
-      default: installExtension,
-      REACT_DEVELOPER_TOOLS
-    } = require('electron-devtools-installer');
-
-    installExtension(REACT_DEVELOPER_TOOLS).catch((err) =>
-      console.log('Error loading React DevTools: ', err)
-    );
-    win.webContents.openDevTools();
   });
 
   app.on('activate', () => {

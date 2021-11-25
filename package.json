@@ -6,7 +6,8 @@
   "main": "src/electron/main.js",
   "scripts": {
     "lint:fix": "eslint --ext .js,.jsx --fix --ignore-path .gitignore .",
-    "start": "cross-env NODE_ENV=development webpack serve --hot --host 0.0.0.0 --config=./webpack.config.js"
+    "start": "cross-env NODE_ENV=development webpack serve --hot --host 0.0.0.0 --config=./webpack.config.js --mode development",
+    "postpackage": "electron-packager ./ --out=./builds"
   },
   "author": "Juan Ramon Esclapez Martinez",
   "license": "ISC",
@@ -39,18 +40,13 @@
     "axios": "^0.24.0",
     "css-loader": "^6.5.1",
     "dotenv": "^10.0.0",
-    "electron-devtools-installer": "^3.2.0",
     "electron-json-storage": "^4.5.0",
-    "file-loader": "^6.2.0",
     "primeflex": "^3.1.0",
     "primeicons": "^5.0.0",
     "primereact": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-transition-group": "^4.4.2",
-    "sass": "^1.43.4",
-    "sass-loader": "^12.3.0",
-    "style-loader": "^3.3.1",
-    "url-loader": "^4.1.1"
+    "style-loader": "^3.3.1"
   }
 }

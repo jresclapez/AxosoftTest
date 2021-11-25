@@ -48,8 +48,10 @@ const App = () => {
         {!searching && (
           <>
             {searchResult.data && <Tweets tweets={searchResult.data} />}
-            {searchOccurred && !searchResult.date && (
-              <div>Results not found</div>
+            {searchOccurred && !searchResult.data && (
+              <div>
+                <h3>Results not found...</h3>
+              </div>
             )}
           </>
         )}
