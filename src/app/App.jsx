@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import 'primereact/resources/themes/fluent-light/theme.css';
+import 'primereact/resources/themes/rhea/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeflex/primeflex.min.css';
 import 'primeicons/primeicons.css';
@@ -39,7 +39,7 @@ const App = () => {
   };
 
   return (
-    <div className="App">
+    <div className="p-d-flex">
       <h1> Twitter Feeds </h1>
       <Search onSearch={handleSearch} lastSearches={lastSearches} />
 

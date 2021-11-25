@@ -9,13 +9,13 @@
 ##### It has been used for the prime-react library for the creation of react components
 
 ### Example of communication between electron and react app
-###### Handle IPC method from electron:
+###### ipcMain method from electron:
 ```js
 ipcMain.handle('searchTweets', async (event, searchText) => {
     return await searchTweets(searchText);
 });
 ```
-###### Invoke IPC method from react app:
+###### ipcRender method from react app:
 ```js
 const searchTweets = async (searchText) => {
     return await ipcRenderer.invoke('searchTweets', searchText);

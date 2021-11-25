@@ -59,6 +59,7 @@ const Search = ({ onSearch, lastSearches }) => {
     }
   };
 
+  // Menu component used as a drop-down to show the latest searches made by the user.
   return (
     <form onSubmit={handleSubmit}>
       <span className="p-input-icon-left">

@@ -58,6 +58,8 @@ app.whenReady().then(() => {
   });
 });
 
+// ipcMain method to listen to requests from the react app
+
 ipcMain.handle('getLastSearches', async () => {
   return await getLastSearches();
 });

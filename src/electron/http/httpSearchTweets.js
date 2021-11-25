@@ -2,6 +2,7 @@ const { BASE_TWITTER_API_URL } = require('../constants');
 require('dotenv').config();
 const axios = require('axios');
 
+// request for recent tweets matching introduced text
 const httpSearchTweets = async (searchText) => {
   const URL = `${BASE_TWITTER_API_URL}/tweets/search/recent`;
 
