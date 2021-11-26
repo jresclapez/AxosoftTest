@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-function fileExist(file) {
+function fileExists(file) {
   return fs.existsSync(file);
 }
 
-module.exports = fileExist;
+module.exports = fileExists;

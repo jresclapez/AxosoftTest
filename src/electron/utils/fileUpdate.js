@@ -1,32 +1,12 @@
 const fs = require('fs');
 const fileExists = require('./fileExists');
-
+// if file not exists,   new file its created
 function fileUpdate(file, formatFunction) {
-  // if file not exists,   new file its created
   if (!fileExists(file)) {
-    fs.open(file, 'wx', function (error) {
-      if (error) {
-        throw error;
-      } else {
-        // function that reads data from file, formats data and write formatted data into file
-        fs.readFile(file, 'utf8', function readFileCallback(error, data) {
-          if (error) {
-            throw error;
-          } else {
-            fs.writeFile(
-              file,
-              formatFunction(data),
-              function writeFileCallback(error) {
-                if (error) {
-                  throw error;
-                }
-              }
-            );
-          }
-        });
-      }
-    });
+    fs.openSync(file, 'wx');
   }
+  const data = fs.readFileSync(file, { encoding: 'utf8', flag: 'r' });
+  fs.writeFileSync(file, formatFunction(data));
 }
 
 module.exports = fileUpdate;
