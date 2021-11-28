@@ -2,8 +2,8 @@ const { JSON_FILE_SEARCHES } = require('../constants');
 const fileUpdate = require('../utils/fileUpdate');
 
 // storage of last 5 searches in the OS temporal path
-function updateLastSearches(searchText) {
-  fileUpdate(JSON_FILE_SEARCHES, function (lastSearches) {
+async function updateLastSearches(searchText) {
+  await fileUpdate(JSON_FILE_SEARCHES, function (lastSearches) {
     if (!lastSearches) {
       lastSearches = '[]';
     }

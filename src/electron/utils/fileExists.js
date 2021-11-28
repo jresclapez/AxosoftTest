@@ -1,7 +1,15 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 
-function fileExists(file) {
-  return fs.existsSync(file);
+async function fileExists(file) {
+  try {
+    await fs.stat(file);
+    return true;
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return false;
+    }
+    throw error;
+  }
 }
 
 module.exports = fileExists;

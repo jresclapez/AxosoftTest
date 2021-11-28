@@ -1,7 +1,7 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 
-function getFileContent(file) {
-  return JSON.parse(fs.readFileSync(file, 'utf8'));
+async function getFileContent(file) {
+  return JSON.parse(await fs.readFile(file, 'utf8'));
 }
 
 module.exports = getFileContent;
