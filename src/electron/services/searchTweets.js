@@ -1,16 +1,13 @@
 const httpSearchTweets = require('../http/httpSearchTweets');
 const updateLastSearches = require('./updateLastSearches');
-const httpGetUserId = require('../http/httpGetUserId');
-const httpSearchTweetsByUserId = require('../http/httpSearchTweetsByUserId');
+const SearchTweetsByUsername = require('./SearchTweetsByUsername');
+const isTwitterUsername = require('../utils/isTwitterUsername');
 
 async function searchTweets(searchText) {
   await updateLastSearches(searchText);
 
-  if (searchText.charAt(0) === '@') {
-    const response = await httpGetUserId(searchText.substring(1));
-    if (response.data) {
-      return await httpSearchTweetsByUserId(response.data.id);
-    }
+  if (isTwitterUsername(searchText)) {
+    return await SearchTweetsByUsername(searchText);
   } else {
     return await httpSearchTweets(searchText);
   }
