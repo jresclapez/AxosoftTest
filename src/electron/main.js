@@ -3,6 +3,7 @@ const { ipcMain } = require('electron');
 const url = require('url');
 const getLastSearches = require('./services/getLastSearches');
 const searchTweets = require('./services/searchTweets');
+const searchTweetsByUsername = require('./services/searchTweetsByUsername');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -66,4 +67,8 @@ ipcMain.handle('getLastSearches', async () => {
 
 ipcMain.handle('searchTweets', async (event, searchText) => {
   return await searchTweets(searchText);
+});
+
+ipcMain.handle('searchTweetsByUsername', async (event, username) => {
+  return await searchTweetsByUsername(username);
 });
