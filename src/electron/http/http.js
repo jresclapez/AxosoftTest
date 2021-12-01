@@ -1,7 +1,7 @@
 const axios = require('axios');
 require('dotenv').config();
 
-// add authentication in the header of http requests
+// create axios instance and add authentication in the header of http requests
 
 const http = axios.create();
 
