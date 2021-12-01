@@ -6,7 +6,6 @@ import 'primeicons/primeicons.css';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import getLastSearches from './services/getLastSearches';
 import searchTweets from './services/searchTweets';
-import searchTweetsByUsername from './services/searchTweetsByUsername.js';
 import Search from './components/Search';
 import Tweets from './components/Tweets';
 
@@ -25,12 +24,7 @@ const App = () => {
       try {
         setSearchOccurred(true);
         setSearching(true);
-
-        const searchResponse =
-          searchText.charAt(0) === '@'
-            ? await searchTweetsByUsername(searchText.substring(1))
-            : await searchTweets(searchText);
-
+        const searchResponse = await searchTweets(searchText);
         setSearchResult(searchResponse);
       } finally {
         setSearching(false);
