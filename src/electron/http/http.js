@@ -1,6 +1,8 @@
 const axios = require('axios');
 require('dotenv').config();
 
+// add authentication in the header of http requests
+
 const http = axios.create();
 
 http.interceptors.request.use((config) => {

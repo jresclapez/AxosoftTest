@@ -1,7 +1,7 @@
 const { BASE_TWITTER_API_URL } = require('../constants');
 const http = require('./http');
 
-// request for recent tweets matching introduced text
+// request for tweets from a user, by user ID
 const httpSearchTweetsByUserId = async (userid) => {
   const URL = `${BASE_TWITTER_API_URL}/users/${userid}/tweets`;
   const config = {

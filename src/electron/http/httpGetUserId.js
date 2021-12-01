@@ -1,7 +1,7 @@
 const { BASE_TWITTER_API_URL } = require('../constants');
 const http = require('./http');
 
-// request for recent tweets matching introduced text
+// requesting the id of a twitter username
 const httpGetUserId = async (username) => {
   username = username.charAt(0) === '@' ? username.substring(1) : username;
   const URL = `${BASE_TWITTER_API_URL}/users/by/username/${username}`;
